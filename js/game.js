@@ -11,6 +11,7 @@ const FRIC_NAVE = 0.988;
 const VEL_MAX   = 8;
 
 let nave;
+let balas = [];
 let estado = 'idle';
 
 const envolver = (v, max) => v < 0 ? v + max : v >= max ? v - max : v;
@@ -31,6 +32,17 @@ function crearNave() {
     angulo: -Math.PI / 2,
     empujando: false,
   };
+}
+
+function dispararNave() {
+  if (!nave) return;
+  balas.push({
+    x: nave.x,
+    y: nave.y,
+    vx: Math.cos(nave.angulo) * 10,
+    vy: Math.sin(nave.angulo) * 10,
+    vida: 60,
+  })
 }
 
 function actualizarNave() {
