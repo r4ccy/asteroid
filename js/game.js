@@ -43,6 +43,11 @@ function dispararNave() {
     vy: Math.sin(nave.angulo) * 10,
     vida: 60,
   })
+
+  if (teclas[' ']) {
+    dispararNave();
+    teclas[' '] = false;
+  }
 }
 
 function actualizarNave() {
