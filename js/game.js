@@ -44,9 +44,9 @@ function dispararNave() {
     vida: 60,
   })
 
-  if (teclas[' ']) {
-    dispararNave();
+  if (teclas[' '] || teclas['Space']) {
     teclas[' '] = false;
+    teclas['Space'] = false;
   }
 }
 
@@ -102,6 +102,16 @@ function dibujarNave() {
   ctx.restore();
 }
 
+  function dibujarBalas() {
+    ctx.fillStyle = '#c875e9';
+
+    balas.forEach(b => {
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, 2, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
 // LOOP
 function loop() {
   requestAnimationFrame(loop);
@@ -112,10 +122,23 @@ function loop() {
     pausar(); return;
   }
 
+  if (teclas[' '] || teclas['Space']) {
+    dispararNave();
+    teclas[' '] = false;
+    teclas['Space'] = false;
+  }
+
   actualizarNave();
+
+  balas = balas.filter(b => --b.vida > 0);
+  balas.forEach(b => {
+    b.x = envolver(b.x + b.vx, ancho);
+    b.y = envolver(b.y + b.vy, alto);
+  });
 
   ctx.clearRect(0, 0, ancho, alto);
   dibujarNave();
+  dibujarBalas();
 }
 
 // ESTADO
