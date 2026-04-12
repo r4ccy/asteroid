@@ -9,7 +9,6 @@
 :root {
   --verde:   #00ff88;
   --cyan:    #00eeff;
-  --naranja: #ff6b35;
 }
 
 html,
@@ -155,14 +154,6 @@ dialog p b {
   font-weight: normal;
 }
 
-#puntaje-final {
-  display: block;
-  font-size: 48px;
-  color: #ffffff;
-  letter-spacing: 4px;
-  margin: 16px 0 28px;
-  text-shadow: 0 0 30px rgba(0, 238, 255, 0.5);
-}
 
 /* botones */
 
