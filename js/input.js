@@ -5,7 +5,6 @@ window.addEventListener('keydown', e => {
   if ([' ', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key))
     e.preventDefault();
 });
-
 window.addEventListener('keyup', e => {
   teclas[e.key] = false;
 });
