@@ -87,7 +87,7 @@ function dibujarNave() {
   ctx.lineWidth   = 1.5;
   ctx.stroke();
 
-  // Llama del motor
+  // fuegaso
   if (nave.empujando && Math.random() > 0.3) {
     ctx.beginPath();
     ctx.moveTo(-7, 0);
@@ -111,6 +111,26 @@ function dibujarNave() {
       ctx.fill();
     });
   }
+
+// ROCAS
+
+function crearAsteroide(x, y, tipo) {
+  const radio    = TAM[tipo];
+  const vel      = VEL[tipo] * (0.7 + Math.random() * 0.8);
+  const angulo   = Math.random() * Math.PI * 2;
+  const lados    = LADOS[tipo];
+  const deformes = Array.from({ length: lados }, () => 0.7 + Math.random() * 0.5);
+
+  return {
+    x, y,
+    vx: Math.cos(angulo) * vel,
+    vy: Math.sin(angulo) * vel,
+    angulo: Math.random() * Math.PI * 2,
+    giro:   (Math.random() - 0.5) * 0.03,
+    radio, tipo, lados, deformes,
+  };
+}
+
 
 // LOOP
 function loop() {
