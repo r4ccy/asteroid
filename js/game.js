@@ -131,6 +131,25 @@ function crearAsteroide(x, y, tipo) {
   };
 }
 
+function spawnAsteroides(cantidad) {
+  for (let i = 0; i < cantidad; i++) {
+    let x, y;
+    do {
+      x = Math.random() * ancho;
+      y = Math.random() * alto;
+    } while (Math.hypot(x - ancho / 2, y - alto / 2) < RADIO_SEGURO);
+    asteroides.push(crearAsteroide(x, y, 'grande'));
+  }
+}
+
+function actualizarAsteroides() {
+  for (const a of asteroides) {
+    a.x      = envolver(a.x + a.vx, ancho);
+    a.y      = envolver(a.y + a.vy, alto);
+    a.angulo += a.giro;
+  }
+}
+
 
 // LOOP
 function loop() {
