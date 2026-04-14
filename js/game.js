@@ -9,10 +9,16 @@ const ROT_NAVE  = 0.065;
 const EMP_NAVE  = 0.18;
 const FRIC_NAVE = 0.988;
 const VEL_MAX   = 8;
+const RADIO_SEGURO = 120;    
+const TAM   = { grande: 38, mediano: 20, pequeno: 10 };
+const PTS   = { grande: 20, mediano: 50, pequeno: 100 };
+const VEL   = { grande: 0.8, mediano: 1.4, pequeno: 2.2 };
+const LADOS = { grande: 10, mediano: 8, pequeno: 6 };
 
 let nave;
 let balas = [];
 let estado = 'idle';
+let asteroides = [];
 
 const envolver = (v, max) => v < 0 ? v + max : v >= max ? v - max : v;
 
