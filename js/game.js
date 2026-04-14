@@ -118,7 +118,7 @@ function dibujarNave() {
     });
   }
 
-// ROCAS
+// ASTEROIDES
 
 function crearAsteroide(x, y, tipo) {
   const radio    = TAM[tipo];
@@ -156,6 +156,26 @@ function actualizarAsteroides() {
   }
 }
 
+
+function dibujarAsteroides() {
+  ctx.strokeStyle = '#7799aa';
+  ctx.lineWidth   = 1.5;
+  for (const a of asteroides) {
+    ctx.save();
+    ctx.translate(a.x, a.y);
+    ctx.rotate(a.angulo);
+    ctx.beginPath();
+    for (let i = 0; i < a.lados; i++) {
+      const ang = (i / a.lados) * Math.PI * 2;
+      const r   = a.radio * a.deformes[i];
+      i === 0 ? ctx.moveTo(Math.cos(ang)*r, Math.sin(ang)*r)
+              : ctx.lineTo(Math.cos(ang)*r, Math.sin(ang)*r);
+    }
+    ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+  }
+}
 
 // LOOP
 function loop() {
