@@ -156,25 +156,22 @@ function actualizarAsteroides() {
   }
 }
 
-
-function dibujarAsteroides() {
+function dibujarAsteroide(a) {
+  ctx.save();
+  ctx.translate(a.x, a.y);
+  ctx.rotate(a.angulo);
+  ctx.beginPath();
+  for (let i = 0; i < a.lados; i++) {
+    const ang = (i / a.lados) * Math.PI * 2;
+    const r   = a.radio * a.deformes[i];
+    i === 0 ? ctx.moveTo(Math.cos(ang)*r, Math.sin(ang)*r)
+            : ctx.lineTo(Math.cos(ang)*r, Math.sin(ang)*r);
+  }
+  ctx.closePath();
   ctx.strokeStyle = '#7799aa';
   ctx.lineWidth   = 1.5;
-  for (const a of asteroides) {
-    ctx.save();
-    ctx.translate(a.x, a.y);
-    ctx.rotate(a.angulo);
-    ctx.beginPath();
-    for (let i = 0; i < a.lados; i++) {
-      const ang = (i / a.lados) * Math.PI * 2;
-      const r   = a.radio * a.deformes[i];
-      i === 0 ? ctx.moveTo(Math.cos(ang)*r, Math.sin(ang)*r)
-              : ctx.lineTo(Math.cos(ang)*r, Math.sin(ang)*r);
-    }
-    ctx.closePath();
-    ctx.stroke();
-    ctx.restore();
-  }
+  ctx.stroke();
+  ctx.restore();
 }
 
 // LOOP
@@ -194,6 +191,7 @@ function loop() {
   }
 
   actualizarNave();
+  actualizarAsteroides();
 
   balas = balas.filter(b => --b.vida > 0);
   balas.forEach(b => {
@@ -204,12 +202,15 @@ function loop() {
   ctx.clearRect(0, 0, ancho, alto);
   dibujarNave();
   dibujarBalas();
+  for (const a of asteroides) dibujarAsteroide(a); 
 }
 
 // ESTADO
 function comenzar() {
   ajustarCanvas();
   crearNave();
+  asteroides = [];
+  spawnAsteroides(6);
   estado = 'jugando';
   document.getElementById('dlg-inicio').close();
 }
