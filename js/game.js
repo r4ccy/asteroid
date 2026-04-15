@@ -9,7 +9,7 @@ const ROT_NAVE  = 0.065;
 const EMP_NAVE  = 0.18;
 const FRIC_NAVE = 0.988;
 const VEL_MAX   = 8;
-const RADIO_SEGURO = 120;    
+const RADIO_SEGURO = 120;
 const TAM   = { grande: 38, mediano: 20, pequeno: 10 };
 const PTS   = { grande: 20, mediano: 50, pequeno: 100 };
 const VEL   = { grande: 0.8, mediano: 1.4, pequeno: 2.2 };
@@ -47,7 +47,7 @@ function dispararNave() {
     y: nave.y,
     vx: Math.cos(nave.angulo) * 10,
     vy: Math.sin(nave.angulo) * 10,
-    vida: 60,
+    vida: 90,
   })
 
   if (teclas[' '] || teclas['Space']) {
@@ -174,6 +174,22 @@ function dibujarAsteroide(a) {
   ctx.restore();
 }
 
+function verificarChoqueNaveAstd () {
+  if (!nave) return false;
+
+  for (const a of asteroides) {
+    const dx = nave.x - a.x;
+    const dy = nave.y - a.y;
+    const distancia = Math.hypot(dx, dy);
+    const radioNave = 15;
+
+    if (distancia < a.radio + radioNave) {
+      return a;
+    }
+  }
+  return null;
+}
+
 // LOOP
 function loop() {
   requestAnimationFrame(loop);
@@ -193,6 +209,11 @@ function loop() {
   actualizarNave();
   actualizarAsteroides();
 
+  const asteroideColisionado = verificarChoqueNaveAstd();
+  if (asteroideColisionado) {
+    console.log('¡Colisióoooon!');
+  }
+
   balas = balas.filter(b => --b.vida > 0);
   balas.forEach(b => {
     b.x = envolver(b.x + b.vx, ancho);
@@ -202,7 +223,7 @@ function loop() {
   ctx.clearRect(0, 0, ancho, alto);
   dibujarNave();
   dibujarBalas();
-  for (const a of asteroides) dibujarAsteroide(a); 
+  for (const a of asteroides) dibujarAsteroide(a);
 }
 
 // ESTADO
