@@ -19,6 +19,7 @@ let nave;
 let balas = [];
 let estado = 'idle';
 let asteroides = [];
+let naveGolpeada = false;
 
 const envolver = (v, max) => v < 0 ? v + max : v >= max ? v - max : v;
 
@@ -89,7 +90,7 @@ function dibujarNave() {
   ctx.lineTo(-7, 0);
   ctx.lineTo(-12, 10);
   ctx.closePath();
-  ctx.strokeStyle = '#00ff88';
+  ctx.strokeStyle = naveGolpeada ? '#ff0000' : '#00ff88';
   ctx.lineWidth   = 1.5;
   ctx.stroke();
 
@@ -212,6 +213,7 @@ function loop() {
   const asteroideColisionado = verificarChoqueNaveAstd();
   if (asteroideColisionado) {
     console.log('¡Colisióoooon!');
+    naveGolpeada = true;
   }
 
   balas = balas.filter(b => --b.vida > 0);
