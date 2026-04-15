@@ -176,7 +176,7 @@ function dibujarAsteroide(a) {
 }
 
 function verificarChoqueNaveAstd () {
-  if (!nave) return false;
+  if (!nave || naveGolpeada) return false;
 
   for (const a of asteroides) {
     const dx = nave.x - a.x;
@@ -212,8 +212,9 @@ function loop() {
 
   const asteroideColisionado = verificarChoqueNaveAstd();
   if (asteroideColisionado) {
-    console.log('¡Colisióoooon!');
     naveGolpeada = true;
+    estado = 'perdido';
+    document.getElementById('dlg-fin').showModal();
   }
 
   balas = balas.filter(b => --b.vida > 0);
@@ -232,10 +233,15 @@ function loop() {
 function comenzar() {
   ajustarCanvas();
   crearNave();
+  balas = [];
   asteroides = [];
+  naveGolpeada = false;
   spawnAsteroides(6);
   estado = 'jugando';
   document.getElementById('dlg-inicio').close();
+
+  const dlgFin = document.getElementById('dlg-fin');
+  if (dlgFin.open) dlgFin.close();
 }
 
 function pausar() {
@@ -251,6 +257,7 @@ function reanudar() {
 // BOTONES
 document.getElementById('btn-iniciar').addEventListener('click', comenzar);
 document.getElementById('btn-continuar').addEventListener('click', reanudar);
+document.getElementById('btn-reiniciar').addEventListener('click', comenzar);
 
 window.addEventListener('keydown', e => {
   if ((e.key === 'p' || e.key === 'P') && estado === 'pausado') reanudar();
