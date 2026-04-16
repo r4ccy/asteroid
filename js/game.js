@@ -20,6 +20,7 @@ let balas = [];
 let estado = 'idle';
 let asteroides = [];
 let naveGolpeada = false;
+let puntaje = 0;
 
 const envolver = (v, max) => v < 0 ? v + max : v >= max ? v - max : v;
 
@@ -191,6 +192,30 @@ function verificarChoqueNaveAstd () {
   return null;
 }
 
+function verificarChoqueBalasAsteroides() {
+  for (let i = balas.length - 1; i >= 0; i--) {
+    const bala = balas[i];
+
+    for (let j = asteroides.length - 1; j >= 0; j--) {
+      const asteroide = asteroides[j];
+
+      const dx = bala.x - asteroide.x;
+      const dy = bala.y - asteroide.y;
+      const distancia = Math.hypot(dx, dy);
+      const radioBala = 2;
+
+      if (distancia < asteroide.radio + radioBala) {
+        puntaje += PTS[asteroide.tipo];
+        document.getElementById('display-puntaje').textContent = puntaje;
+
+        balas.splice(i, 1);
+        asteroides.splice(j, 1);
+        break;
+      }
+    }
+  }
+}
+
 // LOOP
 function loop() {
   requestAnimationFrame(loop);
@@ -210,18 +235,21 @@ function loop() {
   actualizarNave();
   actualizarAsteroides();
 
-  const asteroideColisionado = verificarChoqueNaveAstd();
-  if (asteroideColisionado) {
-    naveGolpeada = true;
-    estado = 'perdido';
-    document.getElementById('dlg-fin').showModal();
-  }
-
   balas = balas.filter(b => --b.vida > 0);
   balas.forEach(b => {
     b.x = envolver(b.x + b.vx, ancho);
     b.y = envolver(b.y + b.vy, alto);
   });
+
+    verificarChoqueBalasAsteroides();
+
+  const asteroideColisionado = verificarChoqueNaveAstd();
+  if (asteroideColisionado) {
+    naveGolpeada = true;
+    estado = 'perdido';
+    document.getElementById('puntaje-final').textContent = puntaje;
+    document.getElementById('dlg-fin').showModal();
+  }
 
   ctx.clearRect(0, 0, ancho, alto);
   dibujarNave();
@@ -236,6 +264,8 @@ function comenzar() {
   balas = [];
   asteroides = [];
   naveGolpeada = false;
+  puntaje = 0;
+  document.getElementById('display-puntaje').textContent = puntaje;
   spawnAsteroides(6);
   estado = 'jugando';
   document.getElementById('dlg-inicio').close();
