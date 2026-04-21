@@ -8,7 +8,11 @@ export const TAM = { grande: 38, mediano: 20, pequeno: 10 };
 export const VEL = { grande: 0.8, mediano: 1.4, pequeno: 2.2 };
 export const LADOS = { grande: 10, mediano: 8, pequeno: 6 };
 export const PTS = { grande: 20, mediano: 50, pequeno: 100 };
-export let vidas = 3;
+export let vidas      = 3;
+export let nivel      = 1;
+export let record     = 0;
+export const estadoNave = { invencible: 0 };
+export let particulas = [];
 
 export const envolver = (v, max) => v < 0 ? v + max : v >= max ? v - max : v;
 
@@ -23,7 +27,7 @@ export let naveGolpeada = false;
 export function setEstado(e) { estado = e; }
 export function setNaveGolpeada(v) { naveGolpeada = v; }
 export function setBalas(arr) { balas = arr; }
-
+export function setInvencible(v) { estadoNave.invencible = v; }
 // NAVE
 export function crearNave(ancho, alto) {
     nave = {
@@ -33,7 +37,7 @@ export function crearNave(ancho, alto) {
         empujando: false,
         muerta: false,
     };
-    invencible = 180;
+    estadoNave.invencible = 180;
 }
 
 export function dispararNave() {
@@ -49,7 +53,7 @@ export function dispararNave() {
 
 export function actualizarNave(teclas, ancho, alto) {
     if (!nave) return;
-    
+
     if (teclas['ArrowLeft'] || teclas['a']) nave.angulo -= ROT_NAVE;
     if (teclas['ArrowRight'] || teclas['d']) nave.angulo += ROT_NAVE;
 
@@ -70,7 +74,7 @@ export function actualizarNave(teclas, ancho, alto) {
     nave.x = envolver(nave.x + nave.vx, ancho);
     nave.y = envolver(nave.y + nave.vy, alto);
 
-    if (invencible > 0) invencible--; 
+    if (estadoNave.invencible > 0) estadoNave.invencible--;
 }
 
 export function matarNave(ancho, alto) {
@@ -141,7 +145,7 @@ export function actualizarAsteroides(ancho, alto) {
 
 // COLISIONES
 export function verificarChoqueNaveAstd() {
-    if (!nave || nave.muerta || invencible > 0) return null;
+    if (!nave || nave.muerta || estadoNave.invencible > 0) return null;
 
     for (const a of asteroides) {
         if (Math.hypot(nave.x - a.x, nave.y - a.y) < a.radio + 15) return a;
@@ -173,10 +177,15 @@ export function verificarChoqueBalasAsteroides() {
 export function reiniciar(ancho, alto) {
     balas = [];
     asteroides = [];
+    particulas = [];
     naveGolpeada = false;
     puntaje = 0;
-    invencible = 180;
+    vidas = 3;
+    nivel = 1;
+    nave = null; 
+    estadoNave.invencible = 0;
+    record = parseInt(localStorage.getItem('ast_record') || '0');
     crearNave(ancho, alto);
-    spawnAsteroides(6, ancho, alto);
+    spawnAsteroides(nivel + 3, ancho, alto);
     estado = 'jugando';
 }
