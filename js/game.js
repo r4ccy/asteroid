@@ -1,6 +1,6 @@
-import { teclas } from './input.js';
-import * as Model from './model.js';
-import * as View  from './view.js';
+import { teclas } from './input.js?v=20260421';
+import * as Model from './model.js?v=20260421';
+import * as View from './view.js?v=20260421';
 
 // LOOP
 function loop() {
@@ -27,22 +27,26 @@ function loop() {
   Model.actualizarBalas(View.ancho, View.alto);
 
   // Colisiones
-  const puntosNuevos = Model.verificarChoqueBalasAsteroides();
-  if (puntosNuevos > 0) {
-    View.actualizarPuntaje(Model.puntaje);
+  const puntos = Model.verificarChoqueBalasAsteroides();
+  if (puntos > 0) {
+    View.actualizarHUD(Model.puntaje, Model.nivel, Model.record, Model.vidas);
+    if (Model.asteroides.length === 0) {
+      Model.siguienteNivel(View.ancho, View.alto);
+    }
   }
-
   const golpeado = Model.verificarChoqueNaveAstd();
   if (golpeado) {
-    Model.setNaveGolpeada(true);
-    Model.setEstado('perdido');
-    View.mostrarDialogoFin(Model.puntaje);
-    return;
+    Model.matarNave(View.ancho, View.alto);
+    View.actualizarHUD(Model.puntaje, Model.nivel, Model.record, Model.vidas);
+    if (Model.estado === 'fin') {
+      View.mostrarDialogoFin(Model.puntaje);
+    }
   }
+
 
   // Dibujar vista
   View.limpiar();
-  View.dibujarNave(Model.nave, Model.naveGolpeada);
+  View.dibujarNave(Model.nave, Model.naveGolpeada, Model.estadoNave.invencible);
   View.dibujarBalas(Model.balas);
   for (const a of Model.asteroides) View.dibujarAsteroide(a);
 }
@@ -51,7 +55,7 @@ function loop() {
 function comenzar() {
   View.ajustarCanvas();
   Model.reiniciar(View.ancho, View.alto);
-  View.actualizarPuntaje(0);
+  View.actualizarHUD(Model.puntaje, Model.nivel, Model.record, Model.vidas);
   View.cerrarDialogoInicio();
   View.cerrarDialogoFin();
 }
