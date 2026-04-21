@@ -15,8 +15,9 @@ export function limpiar() {
 }
 
 // NAVE 
-export function dibujarNave(nave, golpeada) {
-    if (!nave) return;
+export function dibujarNave(nave, golpeada, invencible) {
+    if (!nave || nave.muerta) return;
+    if (invencible > 0 && Math.floor(invencible / 6) % 2 === 0) return;
     ctx.save();
     ctx.translate(nave.x, nave.y);
     ctx.rotate(nave.angulo);
@@ -44,6 +45,30 @@ export function dibujarNave(nave, golpeada) {
     }
 
     ctx.restore();
+}
+
+// VIDAS
+
+export function actualizarHUD(puntaje, nivel, record, vidas) {
+    document.getElementById('display-puntaje').textContent = puntaje;
+    document.getElementById('display-nivel').textContent = nivel;
+    document.getElementById('display-record').textContent = record;
+
+    const cont = document.getElementById('vidas-hud');
+    cont.innerHTML = '';
+    for (let i = 0; i < vidas; i++) {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', '-14 -12 28 26');
+        svg.setAttribute('width', '13');
+        svg.setAttribute('height', '13');
+        const poli = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        poli.setAttribute('points', '10,0 -8,-8 -4,0 -8,8');
+        poli.setAttribute('fill', 'none');
+        poli.setAttribute('stroke', '#00ff88');
+        poli.setAttribute('stroke-width', '1.5');
+        svg.appendChild(poli);
+        cont.appendChild(svg);
+    }
 }
 
 // BALAS
@@ -76,7 +101,7 @@ export function dibujarAsteroide(a) {
     ctx.restore();
 }
 
-// ── DOM ──
+// DOM 
 export function actualizarPuntaje(pts) {
     document.getElementById('display-puntaje').textContent = pts;
 }
