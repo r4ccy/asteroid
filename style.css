@@ -180,3 +180,12 @@ dialog p b {
 .btn:active {
   transform: scale(0.97);
 }
+
+dialog output {
+  display: block;
+  margin: 16px 0 24px;
+  font-size: 28px;
+  letter-spacing: 4px;
+  color: var(--cyan);
+  text-shadow: 0 0 10px var(--cyan);
+}
