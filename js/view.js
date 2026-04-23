@@ -14,7 +14,7 @@ export function limpiar() {
     ctx.clearRect(0, 0, ancho, alto);
 }
 
-// NAVE 
+// NAVECITA
 export function dibujarNave(nave, golpeada, invencible) {
     if (!nave || nave.muerta) return;
     if (invencible > 0 && Math.floor(invencible / 6) % 2 === 0) return;
