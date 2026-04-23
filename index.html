@@ -1,82 +1,72 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asteroids</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asteroids</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <header>
-        <h1>ASTEROIDS</h1>
+  <header>
+    <h1>Asteroids</h1>
 
-        <section id="panel-estado" aria-label="Estado del juego">
-            <p>
-                <strong>PUNTAJE</strong>
-                <output id="pantalla-puntaje">0</output>
-            </p>
-            <p>
-                <strong>NIVEL</strong>
-                <output id="pantalla-nivel">1</output>
-            </p>
-            <p>
-                <strong>RECORD</strong>
-                <output id="pantalla-record">0</output>
-            </p>
-        </section>
-    </header>
+    <nav id="hud" aria-label="Estado del juego">
+      <div id="vidas-hud" aria-label="Vidas restantes"></div>
 
-    <main>
-        <aside id="panel-vidas" aria-label="Vidas restantes"></aside>
-        <canvas id="lienzo-juego"></canvas>
-    </main>
+      <div class="hud-item">
+        SCORE <strong id="display-puntaje">0</strong>
+      </div>
 
-    <footer>
-        <section class="grupo-controles" aria-label="Controles de giro">
-            <button class="boton-control" id="btn-girar-izquierda" aria-label="Girar izquierda">
-                &#8592;
-            </button>
-            <button class="boton-control" id="btn-girar-derecha" aria-label="Girar derecha">
-                &#8594;
-            </button>
-        </section>
+      <div class="hud-item">
+        NIVEL <strong id="display-nivel">1</strong>
+      </div>
 
-        <section class="grupo-controles" aria-label="Controles de acción">
-            <button class="boton-control" id="btn-empujar" aria-label="Empuje">
-                &#8593;
-            </button>
-            <button class="boton-control boton-disparo" id="btn-disparar" aria-label="Disparar">
-                DISPARAR
-            </button>
-        </section>
-    </footer>
+      <div class="hud-item">
+        HI <strong id="display-record">0</strong>
+      </div>
+    </nav>
+  </header>
 
-    <!-- INDICADORES -->
-    <dialog id="dlg-inicio">
-        <h2>ASTEROIDS</h2>
-        <p>
-            Destruye todos los asteroides.<br>
-            Los grandes se dividen en pedazos.
-        </p>
-        <button class="btn" id="btn-iniciar">INICIAR</button>
-    </dialog>
+  <main>
 
-    <dialog id="dlg-pausa">
-        <h2>PAUSA</h2>
-        <p>El juego esta pausado.</p>
-        <button class="btn" id="btn-continuar">CONTINUAR</button>
-    </dialog>
+    <canvas id="juego" aria-label="Area principal del juego"></canvas>
 
-    <dialog id="dlg-fin">
-        <h2>FIN DEL JUEGO</h2>
-        <p>Puntaje final</p>
-        <output id="puntaje-final">0</output>
-        <button class="btn" id="btn-reiniciar">REINICIAR</button>
-    </dialog>
+  </main>
+
+  <!-- inicio -->
+  <dialog id="dlg-inicio" aria-labelledby="titulo-inicio">
+    <h2 id="titulo-inicio">Asteroids</h2>
+
+    <p>
+      Destruye todos los asteroides.
+    </p>
+
+    <button class="btn" id="btn-iniciar">Iniciar</button>
+  </dialog>
+
+  <!-- pausa -->
+  <dialog id="dlg-pausa" aria-labelledby="titulo-pausa">
+    <h2 id="titulo-pausa">Pausa</h2>
+  
+    <p>Presiona <b>Enter</b> para continuar.</p> 
+  
+    <button class="btn" id="btn-continuar">Continuar</button>
+  </dialog>
+
+  <!-- fin -->
+  <dialog id="dlg-fin" aria-labelledby="titulo-fin">
+    <h2 id="titulo-fin">Te papearon</h2>
+
+    <p>Puntuación final</p>
+    <output id="puntaje-final">0</output>
+
+    <button class="btn" id="btn-reiniciar">Reiniciar</button>
+  </dialog>
+
+  <script type="module" src="js/game.js?v=20260421"></script>
 
 </body>
 
