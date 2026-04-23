@@ -15,8 +15,6 @@
     export let particulas = [];
 
     export const envolver = (v, max) => v < 0 ? v + max : v >= max ? v - max : v;
-
-    //conf balas
     const cooldownDisparo = 220;
     const maxBalas = 4;
     let ultimoDisparo = 0;
@@ -33,6 +31,7 @@
     export function setNaveGolpeada(v) { naveGolpeada = v; }
     export function setBalas(arr) { balas = arr; }
     export function setInvencible(v) { estadoNave.invencible = v; }
+    
     // NAVE
     export function crearNave(ancho, alto) {
         nave = {
