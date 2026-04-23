@@ -16,6 +16,11 @@
 
     export const envolver = (v, max) => v < 0 ? v + max : v >= max ? v - max : v;
 
+    //conf balas
+    const cooldownDisparo = 220;
+    const maxBalas = 4;
+    let ultimoDisparo = 0;
+
     // ESTADO 
     export let nave = null;
     export let balas = [];
@@ -42,6 +47,12 @@
 
     export function dispararNave() {
         if (!nave) return;
+        if (balas.length >= maxBalas) return;
+
+        const ahora = Date.now();
+        if (ahora - ultimoDisparo < cooldownDisparo) return;
+
+        ultimoDisparo = ahora;
         balas.push({
             x: nave.x,
             y: nave.y,
@@ -182,8 +193,9 @@
         puntaje = 0;
         vidas = 3;
         nivel = 1;
-        nave = null; 
+        nave = null;
         estadoNave.invencible = 0;
+        ultimoDisparo = 0;
         record = parseInt(localStorage.getItem('ast_record') || '0');
         crearNave(ancho, alto);
         spawnAsteroides(nivel + 3, ancho, alto);

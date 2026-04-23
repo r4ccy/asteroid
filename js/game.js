@@ -17,8 +17,6 @@ function loop() {
   // Disparo
   if (teclas[' '] || teclas['Space']) {
     Model.dispararNave();
-    teclas[' '] = false;
-    teclas['Space'] = false;
   }
 
   // Actualizar modelo
