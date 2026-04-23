@@ -2,29 +2,24 @@ import { teclas } from './input.js?v=20260421';
 import * as Model from './model.js?v=20260421';
 import * as View from './view.js?v=20260421';
 
-// LOOP
 function loop() {
   requestAnimationFrame(loop);
   if (Model.estado !== 'jugando') return;
 
-  // Pausa
   if (teclas['p'] || teclas['P']) {
     teclas['p'] = false; teclas['P'] = false;
     pausar();
     return;
   }
 
-  // Disparo
   if (teclas[' '] || teclas['Space']) {
     Model.dispararNave();
   }
 
-  // Actualizar modelo
   Model.actualizarNave(teclas, View.ancho, View.alto);
   Model.actualizarAsteroides(View.ancho, View.alto);
   Model.actualizarBalas(View.ancho, View.alto);
 
-  // Colisiones
   const puntos = Model.verificarChoqueBalasAsteroides();
   if (puntos > 0) {
     View.actualizarHUD(Model.puntaje, Model.nivel, Model.record, Model.vidas);
@@ -41,15 +36,13 @@ function loop() {
     }
   }
 
-
-  // Dibujar vista
   View.limpiar();
   View.dibujarNave(Model.nave, Model.naveGolpeada, Model.estadoNave.invencible);
   View.dibujarBalas(Model.balas);
   for (const a of Model.asteroides) View.dibujarAsteroide(a);
 }
 
-// ACCIONES 
+// ACCION
 function comenzar() {
   View.ajustarCanvas();
   Model.reiniciar(View.ancho, View.alto);
