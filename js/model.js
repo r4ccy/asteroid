@@ -31,7 +31,7 @@
     export function setNaveGolpeada(v) { naveGolpeada = v; }
     export function setBalas(arr) { balas = arr; }
     export function setInvencible(v) { estadoNave.invencible = v; }
-    
+
     // NAVE
     export function crearNave(ancho, alto) {
         nave = {
@@ -73,6 +73,7 @@
             nave.vy += Math.sin(nave.angulo) * EMP_NAVE;
         }
 
+        // fuegazoo
         const v = Math.hypot(nave.vx, nave.vy);
         if (v > VEL_MAX) {
             nave.vx = (nave.vx / v) * VEL_MAX;
